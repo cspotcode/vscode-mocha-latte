@@ -5,13 +5,13 @@ const
   Mocha = require('mocha'),
   path = require('path'),
   Promise = require('bluebird'),
-  trimArray = require('../utils').trimArray;
+  { trimArray, resolveRelativePath } = require('../utils');
 
 const
   args = JSON.parse(process.argv[process.argv.length - 1]);
 
 for(let file of args.requires)
-  require(file);
+  require(resolveRelativePath(file));
 
 createMocha(args.rootPath, args.options, args.files.glob, args.files.ignore)
   .then(mocha => crawlTests(mocha.suite))
