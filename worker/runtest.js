@@ -6,14 +6,15 @@ const
   fs = require('fs'),
   Mocha = require('mocha'),
   path = require('path'),
-  Promise = require('bluebird');
+  Promise = require('bluebird'),
+  { trimArray, resolveRelativePath } = require('../utils');
 
 const
   args = JSON.parse(process.argv[process.argv.length - 1]),
   options = args.options;
 
 for(let file of args.requires)
-  require(file);
+  require(resolveRelativePath(file));
 
 if (Object.keys(options || {}).length) {
   console.log(`Applying Mocha options:\n${indent(JSON.stringify(options, null, 2))}`);
